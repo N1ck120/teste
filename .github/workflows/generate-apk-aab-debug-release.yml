@@ -1,9 +1,7 @@
 name: Gerar APK e AAB (Upload - Criar Artefato no GitHub Actions)
 
 env:
-  # Nome do módulo principal do projeto. Altere se necessário!
   main_project_module: app
-  # Nome exibido na Play Store. Altere se desejar!
   playstore_name: Frogobox ID
 
 on:
@@ -33,37 +31,37 @@ jobs:
           cache: 'gradle'
 
       - name: Permitir execução do gradlew
-        run: chmod +x ./gradlew
+        run: chmod +x EasyDoc/gradlew
 
       - name: Executar testes do Gradle
-        run: ./gradlew test
+        run: cd EasyDoc && ./gradlew test
 
       - name: Build do projeto Gradle
-        run: ./gradlew build
+        run: cd EasyDoc && ./gradlew build
 
       - name: Gerar APK Debug (${ env.main_project_module })
-        run: ./gradlew assembleDebug
+        run: cd EasyDoc && ./gradlew assembleDebug
 
       - name: Gerar APK Release (${ env.main_project_module })
-        run: ./gradlew assemble
+        run: cd EasyDoc && ./gradlew assemble
 
       - name: Gerar Bundle AAB Release (${ env.main_project_module })
-        run: ./gradlew ${{ env.main_project_module }}:bundleRelease
+        run: cd EasyDoc && ./gradlew ${{ env.main_project_module }}:bundleRelease
 
       - name: Upload APK Debug
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) debug gerado
-          path: ${{ env.main_project_module }}/build/outputs/apk/debug/
+          path: EasyDoc/${{ env.main_project_module }}/build/outputs/apk/debug/
 
       - name: Upload APK Release
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) release gerado
-          path: ${{ env.main_project_module }}/build/outputs/apk/release/
+          path: EasyDoc/${{ env.main_project_module }}/build/outputs/apk/release/
 
       - name: Upload AAB Release
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release gerado
-          path: ${{ env.main_project_module }}/build/outputs/bundle/release/
+          path: EasyDoc/${{ env.main_project_module }}/build/outputs/bundle/release/
