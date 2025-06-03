@@ -51,20 +51,20 @@ jobs:
 
       # Run Build Project
       - name: Build gradle project
-        run: ./EasyDoc/gradlew build
+        run: ./home/runner/work/teste/teste/EasyDoc/gradlew build
 
       # Create APK Debug
       - name: Build apk debug project (APK) - ${{ env.main_project_module }} module
-        run: ./EasyDoc/gradlew assembleDebug
+        run: ./home/runner/work/teste/teste/EasyDoc/gradlew assembleDebug
 
       # Create APK Release
       - name: Build apk release project (APK) - ${{ env.main_project_module }} module
-        run: ./EasyDoc/gradlew assemble
+        run: ./home/runner/work/teste/teste/EasyDoc/gradlew assemble
 
       # Create Bundle AAB Release
       # Noted for main module build [main_project_module]:bundleRelease
       - name: Build app bundle release (AAB) - ${{ env.main_project_module }} module
-        run: ./EasyDoc/gradlew ${{ env.main_project_module }}:bundleRelease
+        run: ./home/runner/work/teste/teste/EasyDoc/gradlew ${{ env.main_project_module }}:bundleRelease
 
       # Upload Artifact Build
       # Noted For Output [main_project_module]/build/outputs/apk/debug/
