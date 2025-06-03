@@ -40,7 +40,10 @@ jobs:
           cache: 'gradle'
 
       - name: Change wrapper permissions
-        run: chmod +x ./EasyDoc/gradlew && pwd
+        run: chmod +x ./EasyDoc/gradlew
+
+      - name: Pasta
+        run: pwd
 
       # Run Tests Build
       - name: Run gradle tests
