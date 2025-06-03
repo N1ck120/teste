@@ -2,7 +2,7 @@ name: Generated APK AAB (Upload - Create Artifact To Github Action)
 
 env:
   # The name of the main module repository
-  main_project_module: app
+  main_project_module: /EasyDoc/app
 
   # The name of the Play Store
   playstore_name: Frogobox ID
@@ -36,32 +36,32 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu' # See 'Supported distributions' for available options
-          java-version: '17'
+          java-version: '23'
           cache: 'gradle'
 
       - name: Change wrapper permissions
-        run: chmod +x ./gradlew
+        run: chmod +x ./EasyDoc/gradlew
 
       # Run Tests Build
       - name: Run gradle tests
-        run: ./gradlew test
+        run: ./EasyDoc/gradlew test
 
       # Run Build Project
       - name: Build gradle project
-        run: ./gradlew build
+        run: ./EasyDoc/gradlew build
 
       # Create APK Debug
       - name: Build apk debug project (APK) - ${{ env.main_project_module }} module
-        run: ./gradlew assembleDebug
+        run: ./EasyDoc/gradlew assembleDebug
 
       # Create APK Release
       - name: Build apk release project (APK) - ${{ env.main_project_module }} module
-        run: ./gradlew assemble
+        run: ./EasyDoc/gradlew assemble
 
       # Create Bundle AAB Release
       # Noted for main module build [main_project_module]:bundleRelease
       - name: Build app bundle release (AAB) - ${{ env.main_project_module }} module
-        run: ./gradlew ${{ env.main_project_module }}:bundleRelease
+        run: ./EasyDoc/gradlew ${{ env.main_project_module }}:bundleRelease
 
       # Upload Artifact Build
       # Noted For Output [main_project_module]/build/outputs/apk/debug/
