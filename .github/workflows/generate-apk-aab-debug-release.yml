@@ -2,8 +2,6 @@ name: Gerar APK e AAB (Upload - Criar Artefato no GitHub Actions)
 
 env:
   main_project_module: app
-  playstore_name: Frogobox ID
-
 on:
   push:
     branches:
@@ -53,15 +51,3 @@ jobs:
         with:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) debug gerado
           path: EasyDoc/${{ env.main_project_module }}/build/outputs/apk/debug/
-
-      - name: Upload APK Release
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) release gerado
-          path: EasyDoc/${{ env.main_project_module }}/build/outputs/apk/release/
-
-      - name: Upload AAB Release
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release gerado
-          path: EasyDoc/${{ env.main_project_module }}/build/outputs/bundle/release/
