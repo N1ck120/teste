@@ -1,86 +1,69 @@
-name: Generated APK AAB (Upload - Create Artifact To Github Action)
+name: Gerar APK e AAB (Upload - Criar Artefato no GitHub Actions)
 
 env:
-  # The name of the main module repository
+  # Nome do módulo principal do projeto. Altere se necessário!
   main_project_module: app
-
-  # The name of the Play Store
+  # Nome exibido na Play Store. Altere se desejar!
   playstore_name: Frogobox ID
 
 on:
-
   push:
     branches:
       - 'release/**'
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      # Set Current Date As Env Variable
-      - name: Set current date as env variable
+      - name: Definir data atual como variável de ambiente
         run: echo "date_today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
-      # Set Repository Name As Env Variable
-      - name: Set repository name as env variable
+      - name: Definir nome do repositório como variável de ambiente
         run: echo "repository_name=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
 
-      - name: Set Up JDK
+      - name: Configurar JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu' # See 'Supported distributions' for available options
+          distribution: 'zulu'
           java-version: '23'
           cache: 'gradle'
 
-      - name: Change wrapper permissions
+      - name: Permitir execução do gradlew
         run: chmod +x ./gradlew
 
-      # Run Tests Build
-      - name: Run gradle tests
+      - name: Executar testes do Gradle
         run: ./gradlew test
 
-      # Run Build Project
-      - name: Build gradle project
+      - name: Build do projeto Gradle
         run: ./gradlew build
 
-      # Create APK Debug
-      - name: Build apk debug project (APK) - ${{ env.main_project_module }} module
+      - name: Gerar APK Debug (${ env.main_project_module })
         run: ./gradlew assembleDebug
 
-      # Create APK Release
-      - name: Build apk release project (APK) - ${{ env.main_project_module }} module
+      - name: Gerar APK Release (${ env.main_project_module })
         run: ./gradlew assemble
 
-      # Create Bundle AAB Release
-      # Noted for main module build [main_project_module]:bundleRelease
-      - name: Build app bundle release (AAB) - ${{ env.main_project_module }} module
+      - name: Gerar Bundle AAB Release (${ env.main_project_module })
         run: ./gradlew ${{ env.main_project_module }}:bundleRelease
 
-      # Upload Artifact Build
-      # Noted For Output [main_project_module]/build/outputs/apk/debug/
-      - name: Upload APK Debug - ${{ env.repository_name }}
+      - name: Upload APK Debug
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) debug generated
+          name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) debug gerado
           path: ${{ env.main_project_module }}/build/outputs/apk/debug/
 
-      # Noted For Output [main_project_module]/build/outputs/apk/release/
-      - name: Upload APK Release - ${{ env.repository_name }}
+      - name: Upload APK Release
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) release generated
+          name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) release gerado
           path: ${{ env.main_project_module }}/build/outputs/apk/release/
 
-      # Noted For Output [main_project_module]/build/outputs/bundle/release/
-      - name: Upload AAB (App Bundle) Release - ${{ env.repository_name }}
+      - name: Upload AAB Release
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release generated
+          name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release gerado
           path: ${{ env.main_project_module }}/build/outputs/bundle/release/
