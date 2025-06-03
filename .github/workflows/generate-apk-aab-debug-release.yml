@@ -40,31 +40,28 @@ jobs:
           cache: 'gradle'
 
       - name: Change wrapper permissions
-        run: chmod +x ./EasyDoc/gradlew
-
-      - name: Pasta
-        run: cd /home/runner/work/teste/teste/EasyDoc
+        run: chmod +x ./gradlew
 
       # Run Tests Build
       - name: Run gradle tests
-        run: ./EasyDoc/gradlew test
+        run: ./gradlew test
 
       # Run Build Project
       - name: Build gradle project
-        run: ./home/runner/work/teste/teste/EasyDoc/gradlew build
+        run: ./gradlew build
 
       # Create APK Debug
       - name: Build apk debug project (APK) - ${{ env.main_project_module }} module
-        run: ./home/runner/work/teste/teste/EasyDoc/gradlew assembleDebug
+        run: ./gradlew assembleDebug
 
       # Create APK Release
       - name: Build apk release project (APK) - ${{ env.main_project_module }} module
-        run: ./home/runner/work/teste/teste/EasyDoc/gradlew assemble
+        run: ./gradlew assemble
 
       # Create Bundle AAB Release
       # Noted for main module build [main_project_module]:bundleRelease
       - name: Build app bundle release (AAB) - ${{ env.main_project_module }} module
-        run: ./home/runner/work/teste/teste/EasyDoc/gradlew ${{ env.main_project_module }}:bundleRelease
+        run: ./gradlew ${{ env.main_project_module }}:bundleRelease
 
       # Upload Artifact Build
       # Noted For Output [main_project_module]/build/outputs/apk/debug/
