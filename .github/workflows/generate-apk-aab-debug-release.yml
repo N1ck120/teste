@@ -43,7 +43,7 @@ jobs:
         run: chmod +x ./EasyDoc/gradlew
 
       - name: Pasta
-        run: cd /EasyDoc
+        run: cd /teste/EasyDoc
 
       # Run Tests Build
       - name: Run gradle tests
