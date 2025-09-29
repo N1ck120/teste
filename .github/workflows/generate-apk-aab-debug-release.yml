@@ -51,3 +51,5 @@ jobs:
         with:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) debug gerado
           path: EasyDoc/${{ env.main_project_module }}/build/outputs/apk/debug/
+
+
